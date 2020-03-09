@@ -2,12 +2,15 @@ from oppgave2 import lagA
 from numpy import dot
 
 def y_e_vektor():
-    # E = N/m^2
-    E = 1.3*10**10 # 10^10
-    # I = (wd^3)/12
-    I = (0.3 * 0.03 ** 3) / 12
-    L = 2
-    f_x = -480 * 0.3 * 0.03 * 9.81
+    w = 0.3 #m
+    t = 0.03 #m
+    g = 9.81 #N
+    d = 480 #kg/m^3
+    L = 2 #m
+    E = 1.3 * 10**10 #N/m^2
+    I = (w*t**3)/12
+    f_x = -d*w*t*g
+
     y_e = []
 
     for i in range(0, 10):
