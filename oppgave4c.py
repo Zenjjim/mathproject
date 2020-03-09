@@ -2,14 +2,14 @@ from oppgave2 import lagA
 from numpy import dot
 
 def y_e_vektor():
-    w = 0.3 #m
-    t = 0.03 #m
-    g = 9.81 #N
-    d = 480 #kg/m^3
-    L = 2 #m
-    E = 1.3 * 10**10 #N/m^2
-    I = (w*t**3)/12
-    f_x = -d*w*t*g
+    w = 0.3 # m
+    t = 0.03 # m
+    g = 9.81 # N
+    d = 480 # kg/m^3
+    L = 2 # lengde m
+    E = 1.3 * 10**10 # N/m^2
+    I = (w*t**3)/12 # Tverrsnitt m^2
+    f_x = -d*w*t*g # egen vekt
 
     y_e = []
 
@@ -19,11 +19,14 @@ def y_e_vektor():
 
     return y_e
 
-# TODO: Skriv om
 def oppgave4c():
+    # Strukturmatrise
     A = lagA(10)
+    # Vektor med eksakte y-verdier
     y_e = y_e_vektor()
+    # lengden på hver seksjon
     h = 0.2
+    # vektoren y'''' med numeriske tilnærminger
     return (1 / h**4) * dot(A, y_e)
 
 print(oppgave4c())
