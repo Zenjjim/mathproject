@@ -8,9 +8,9 @@ def calc_y_c():
   g = 9.81 #N
   d = 480 #kg/m^3
   L = 2 #m
-  E = 1.3 * power(10, 10) #N/m^2
+  E = 1.3 * 10**10 #N/m^2
   n = 10
-  I = w*power(d, 3)/12
+  I = (w*t**3)/12
   f = -d*w*t*g
   h = L/n
   f_x = [f] * n
