@@ -1,4 +1,5 @@
 from oppgave2 import lagA
+from numpy import dot
 
 def y_e_vektor():
     # E = N/m^2
@@ -20,9 +21,6 @@ def oppgave4c():
     A = lagA(10)
     y_e = y_e_vektor()
     h = 0.2
-    return (1 / h**4) * A * y_e
+    return (1 / h**4) * dot(A, y_e)
 
-
-
-print(y_e_vektor())
 print(oppgave4c())

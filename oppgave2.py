@@ -15,3 +15,4 @@ def lagA(n):
     # Setter inn verdier for siste rad
     A[n-1][n-4+i] = [-12, 96, -156, 72][i]/17
   return A
+
