@@ -6,24 +6,31 @@ from scipy.sparse import csc_matrix
 from oppgave2 import lagA
 from oppgave4c import oppgave4c
 
-y4_c = oppgave4c()  # Numerisk fjerdederivert y''''_c
+y4_c = oppgave4c()
 
-E = 1.3 * 10 ** 10  # N/m^2
-I = (0.3 * 0.03 ** 3) / 12  # I = (wd^3)/12
-f = -480 * 0.3 * 0.03 * 9.81  # kg*m/s^2*m
-y4_e = (f / (E * I)) * ones((10, 1))  # Eksakt fjerdederivert y''''_e
+E = 1.3 * 10 ** 10 
+I = (0.3 * 0.03 ** 3) / 12
+f = -480 * 0.3 * 0.03 * 9.81
+# Regner ut vektoren med lengde 10
+y4_e = (f / (E * I)) * ones((10, 1)) 
 
-foroverfeil = norm(y4_e - y4_c, ord=inf)
-rel_foroverfeil = foroverfeil / norm(y4_e, ord=inf)
-rel_bakoverfeil = 2**(-52)
-feilforstorring = rel_foroverfeil / rel_bakoverfeil
+forward_error = norm(y4_e - y4_c, ord=inf)
+rel_forward_error = forward_error / norm(y4_e, ord=inf)
+# Antar at den relative bakoverfeilen er 2^-52
+rel_backwards_error = 2**(-52)
+# Feilforstørringen er relativ foroverfeil delt på relativ bakoverfeil
+error_magnification = rel_forward_error / rel_backwards_error
 
+# Lager matrisen fra oppgave 2
 A = lagA(10)
+# Konverterer matrisen til en 'sparse matrix' for å inverse den
 A = csc_matrix(A)
-AI = inv(A)
-cond_A = sp_norm(A, ord=inf) * sp_norm(AI, ord=inf)
+A_Invers = inv(A)
+# Kondisjonstallet
+cond_A = sp_norm(A, ord=inf) * sp_norm(A_Invers, ord=inf)
 
-print("foroverfeil: ", foroverfeil)
-print("relativ foroverfeil:", rel_foroverfeil)
-print("feilforstørring:", feilforstorring)
-print("kondisjonstall cond(A):", cond_A)
+# Printer ut svarene
+print("Forroverfeil: ", forward_error)
+print("Relativ forroverfeil:", rel_forward_error)
+print("Feilforstørring:", error_magnification)
+print("Kondisjonstall cond(A):", cond_A)
