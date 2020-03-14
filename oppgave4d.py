@@ -30,7 +30,7 @@ A_Invers = inv(A)
 cond_A = sp_norm(A, ord=inf) * sp_norm(A_Invers, ord=inf)
 
 # Printer ut svarene
-print("Forroverfeil: ", forward_error)
-print("Relativ forroverfeil:", rel_forward_error)
+print("Foroverfeil: ", forward_error)
+print("Relativ foroverfeil:", rel_forward_error)
 print("Feilforstørring:", error_magnification)
 print("Kondisjonstall cond(A):", cond_A)
