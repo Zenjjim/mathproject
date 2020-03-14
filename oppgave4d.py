@@ -3,6 +3,8 @@ from numpy import ones
 from numpy.linalg import norm
 from scipy.sparse.linalg import inv, norm as sp_norm
 from scipy.sparse import csc_matrix
+
+# Tidligere oppgaver
 from oppgave2 import lagA
 from oppgave4c import oppgave4c
 
