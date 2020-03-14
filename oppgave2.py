@@ -1,4 +1,4 @@
-from scipy.sparse import spdiags
+from scipy.sparse import spdiags, issparse, csc_matrix
 from numpy import ones
 
 def lagA(n):
@@ -14,5 +14,5 @@ def lagA(n):
     A[n-2][n-4+i] = [16, -60, 72, -28][i]/17
     # Setter inn verdier for siste rad
     A[n-1][n-4+i] = [-12, 96, -156, 72][i]/17
-  return A
+  return csc_matrix(A)
 
