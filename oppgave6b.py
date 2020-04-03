@@ -44,6 +44,7 @@ def oppgave6b():
 	y = y1-y2
 
 	y_list = [0.0]*11
+	B = [0.0]*11
 	for i in range(1, 12):
 		n = 10 * 2 ** i
 
@@ -53,7 +54,12 @@ def oppgave6b():
 		print(f"Exact {y}")
 		print("-----------")
 		y_list[i-1] = (m[-1])
+		# B[i-1] = (abs(abs(y) - abs(m[-1])))
+
 	plot(list(range(1, 12)), [y]*11, 'r', list(range(1, 12)), (y_list), 'b')
+	# plot(list(range(1, 12)), (B), 'g')
 	show()
+
+
 
 oppgave6b()
