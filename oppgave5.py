@@ -21,6 +21,6 @@ def oppgave5():
     for i in range(1, 12):
         n = 10 * 2 ** i
         m = calc_y_c(n)
-        print(i, "&", n, "&", cond(lagA(n), p=inf), "&", y-m[-1], "\\\\\n\hline")
+        print("\("+str(i)+"\)", "&", "\("+str(n)+"\)", "&", "\("+str(cond(lagA(n), p=inf))+"\)", "&","\("+str(y-m[-1])+"\)", "\\\\\n\hline")
 
 oppgave5()
