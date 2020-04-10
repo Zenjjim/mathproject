@@ -1,62 +1,62 @@
-import scipy as sp
-import math as m
-from scipy.sparse import spdiags
-from scipy.sparse import lil_matrix
-from scipy.sparse import csr_matrix
-from scipy.sparse.linalg import spsolve
-import matplotlib.pyplot as plt
-
-# Tidligere oppgaver
+from scipy.sparse.linalg import spsolve, inv, norm
+from scipy.sparse import csc_matrix
+from numpy.linalg import cond
+from math import inf
 from oppgave2 import lagA
+import math
+from matplotlib.pyplot import loglog, plot, show, ylabel, xlabel, annotate
 
 
-def solve(A, b):
-    y = spsolve(A, b)
-    s = y.shape
-    f = y[s[0]-1]
-    return f
+def calc_y_c(n):
+	w = 0.3  # m
+	t = 0.03  # m
+	g = 9.81  # N
+	d = 480  # kg/m^3
+	L = 2  # m
+	E = 1.3 * 10**10  # N/m^2
+	I = (w*t**3)/12
+	f = -d*w*t*g
+	p = 100 #km/m
+	h = L/n
+	b = [0.0]*n
+	for k in range(n):
+		s = -p*g*math.sin(math.pi/L*h*(k+1))
+		b[k]=([(h ** 4 / (E * I)) * (f+s)])
+	A = csc_matrix(lagA(n))
+	y = spsolve(A, b)
+	return y
 
 
-def main():
-    E = 1.3*10**10  # N/m^2
-    I = (0.3*0.03**3)/12  # I = (wd^3)/12
+def oppgave6c():
+	w = 0.3  # m
+	t = 0.03  # m
+	g = 9.81  # N
+	p = 100 #kg/m
+	d = 480  # kg/m^3
+	L = 2  # m
+	E = 1.3 * 10**10  # N/m^2
+	I = (w*t**3)/12
+	f_x = -d*w*t*g
+	x = L
 
-    # f(x) er konstant når massen er lik egenmassen, f(x) = -480*w*d*g
-    fx = -480*0.3*0.03*9.81  # kg*m/s^2*m
-    p = 100  # kg/m
-    L = 2
-    x = L
+	y1 = f_x / (24 * E * I) * (x ** 2) * ((x ** 2) - 4 * L * x + 6 * L ** 2)
+	y2 = ((g*p*L/(E*I*math.pi))*((L**3)/(math.pi**3)*math.sin(math.pi/L*x)-((x**3)/6)+(L*(x**2)/2)-(x*(L**2)/(math.pi**2))))
+	y = y1-y2
 
-    # eksakt løsning
-    y2halv = ((fx / (24 * E * I)) * (x ** 2) *
-              ((x ** 2) - (4 * L * x) + (6 * (L ** 2))))
-    y2halv2 = (((9.81 * p * L) / (E * I * m.pi)) * ((L ** 3 / m.pi ** 3)
-                                                    * 0 - (x ** 3 / 6) + ((L * x ** 2) / 2) - ((2 * L ** 2) / m.pi**2)))
-    bibkj = m.sin(m.pi*x/L)
-    y2 = y2halv - y2halv2
-    print("y2: ", y2)
-    B = [0.0]*12
-    ntab = [0.0]*12
+	B = [0.0]*11
+	n_list = [0.0]*11
+	for i in range(1, 12):
+		n = 10 * 2 ** i
+		n_list[i-1]=n
+		m = calc_y_c(n)
+		B[i-1] = abs((y) - (m[-1]))
 
-    for i in range(1, len(B)+1):
-        n = 10*2**i
-        h = L / n  # h = L/n, der L = 2.0 meter
-        b = [0.0]*n
-        for j in range(0, n):
-            sx = -100 * 9.81 * m.sin(m.pi / 2 * (h*(j+1)))
-            b[j] = (h ** 4 / (E * I)) * (fx + sx)
+	loglog(n_list, B, 'g')
+	ylabel("Feil")
+	xlabel("x=10*2^i")
+	annotate(str(n_list[6]) + ", " + str(B[6]), (n_list[6], B[6]))
+	show()
 
-        A = lagA(n)
-        print(n, " : ", solve(A, b))
 
-        #feilen = eksakt - utregnet
-        B[i-1] = (abs(abs(y2) - abs(solve(A, b))))
-        ntab[i-1] = (n)
 
-    #plt.plot(y2, solve(A, b))
-    plt.loglog(ntab, B)
-    plt.ylabel("feil")
-    plt.xlabel("n")
-    plt.show()
-
-main()
+oppgave6c()
