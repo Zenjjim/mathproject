@@ -4,7 +4,7 @@ from numpy.linalg import cond
 from math import inf
 from oppgave2 import lagA
 import math
-from matplotlib.pyplot import loglog, plot, show, ylabel, xlabel, annotate
+from matplotlib.pyplot import loglog, plot, show, ylabel, xlabel, legend
 
 
 def calc_y_c(n):
@@ -50,7 +50,9 @@ def oppgave6b():
 		print(f"Number:{n}_Calculated:{m[-1]}_Exact:{y}")
 		y_list[i-1] = (m[-1])
 
-	plot([y]*11, 'r', (y_list), 'b')
+	plot([y]*11, 'r', label='Eksakt løsning')
+	plot((y_list), 'b', label='Numerisk løsning')
+	legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
 	ylabel("Verdi")
 	xlabel("10*2^x")
 	show()
