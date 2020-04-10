@@ -18,11 +18,9 @@ def oppgave5():
     f_x = -d*w*t*g
     y = f_x / (24 * E * I) * (x ** 2) * (x ** 2 - 4 * L * x + 6 * L ** 2)
 
-    for i in range(1, 10):
+    for i in range(1, 12):
         n = 10 * 2 ** i
         m = calc_y_c(n)
-        print("Eksponent:", i, " n=", n,
-              "Kondisjonstall:", cond(lagA(n), p=inf),
-              "Feil (x=L):", y-m[-1])
+        print(i, "&", n, "&", cond(lagA(n), p=inf), "&", y-m[-1], "\\\\\n\hline")
 
 oppgave5()
