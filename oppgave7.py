@@ -1,50 +1,52 @@
-from numpy import ones
-from scipy.sparse import spdiags, csr_matrix, lil_matrix
-from scipy.sparse.linalg import spsolve
-from matplotlib import pyplot
+from scipy.sparse.linalg import spsolve, inv, norm
+from scipy.sparse import csc_matrix
+from numpy.linalg import cond
+from math import inf
+from oppgave2 import lagA
+import math
+from matplotlib.pyplot import loglog, plot, show, ylabel, xlabel, annotate, legend
 
-def lagA(n):
-    e = ones(n)
-    A = lil_matrix(spdiags(
-        [e, -4.0 * e, 6.0 * e, -4.0 * e, e], 
-        [-2, -1, 0, 1, 2],
-        n, n)
-    )
-    B = csr_matrix([
-        [16.0, -9.0, (8 / 3), (-1 / 4)],
-        [(16 / 17), (-60 / 17), (72 / 17), (-28 / 17)],
-        [(-12 / 17), (96 / 17), (-156 / 17), (72 / 17)]
-    ])
+def calc_y_c(n, A):
+	w = 0.3  # m
+	t = 0.03  # m
+	g = 9.81  # N
+	d = 480  # kg/m^3
+	L = 2  # m
+	E = 1.3 * 10**10  # N/m^2
+	I = (w*t**3)/12
+	f_x = -d*w*t*g
+	h = L/n
 
-    A[0, 0: 4] = B[0, :]
-    A[n-2, n-4: n] = B[1, :]
-    A[n-1, n-4: n] = B[2, :]
-    return csr_matrix(A)
+	p = 1-0.15 #presentage of where we should start to calculate the extra weight
+	s_x = -g * 50 / 0.3
 
-if __name__ == "__main__":
-    B = [0.0]*12
-    n_tabell = [0.0]*12
-    f_x = -480*0.3*0.03*9.81
-    s_x = -9.81*50/0.3
-    E = 1.3*10**10
-    I = (0.3*0.03**3)/12
+	end = round(n*p)
 
-    for i in range(0, len(B)):
-        n = 10*2**(i+1)
-        n_tabell[i] = i+1
-        h = 2/n
-        b = [(h ** 4 / (E * I)) * f_x] * n
-        end = round(n*(1-0.15))
+	b=[(h ** 4 / (E * I)) * f_x]*n
 
-        for j in range(end, n):
-            b[j] += ((h ** 4 / (E * I))*s_x)
+	for i in range(end, n):
+		b[i] += (h ** 4 / (E * I)) * s_x
 
-        A = lagA(n)
-        y = spsolve(A, b)
-        s = y.shape
-        B[i] = abs(y[s[0]-1])
+	y = spsolve(csc_matrix(A), b)
+	return y
 
-    pyplot.plot(n_tabell, B)
-    pyplot.ylabel("Forbøyning")
-    pyplot.xlabel("n")
-    pyplot.show()
+
+def oppgave7():
+	B = [0.0]*11
+	n_list = [0.0]*11
+	for i in range(1, 12):
+		n = 10 * 2 ** i
+		n_list[i-1]=n
+		A = lagA(n)
+		m = calc_y_c(n, A)
+		B[i-1] = m[-1]
+		print("\("+str(i)+"\)","&","\("+str(n_list[i-1])+"\)","&", "\("+str(B[i-1])+"\)","\\\\\n\hline")
+
+	plot(list(range(1, 12)), B, 'g', label="Feil")
+	legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
+	ylabel("Misplacement")
+	xlabel("n")
+	show()
+
+
+oppgave7()
