@@ -22,17 +22,17 @@ def oppgave5():
 
 	cond_list = [0.0]*11
 	err_list = [0.0]*11
-	for i in range(1, 8):
+	for i in range(1, 12):
 		n = 10 * 2 ** i
 		m = calc_y_c(n)
 		condi = cond(lagA(n), p=inf)
-		err = y-m[-1]
+		err = abs(y-m[-1])
 		print("\("+str(i)+"\)", "&", "\("+str(n)+"\)", "&", "\("+str(condi)+"\)", "&","\("+str(err)+"\)", "\\\\\n\hline")
 		cond_list[i-1]=condi
 		err_list[i-1]=err
 
-	plot(list(range(1, 12)), cond_list, 'r', label='Kondisjonstall')
-	plot(list(range(1, 12)), (err_list), 'b', label='Feil')
+	loglog(list(range(1, 12)), cond_list, 'r', label='Kondisjonstall')
+	loglog(list(range(1, 12)), err_list, 'b', label='Feil')
 	legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
 	ylabel("Verdi")
 	xlabel("10*2^x")
