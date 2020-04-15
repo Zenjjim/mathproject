@@ -22,7 +22,7 @@ def oppgave5():
 
 	cond_list = [0.0]*11
 	err_list = [0.0]*11
-	for i in range(1, 12):
+	for i in range(1, 10):
 		n = 10 * 2 ** i
 		m = calc_y_c(n)
 		condi = cond(lagA(n), p=inf)
