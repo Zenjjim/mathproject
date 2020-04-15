@@ -1,19 +1,19 @@
 from scipy.sparse.linalg import spsolve
-from numpy import power
 from oppgave2 import lagA
 
-
 def calc_y_c(n):
-    w = 0.3  # m
-    t = 0.03  # m
-    g = 9.81  # N
-    d = 480  # kg/m^3
-    L = 2  # m
-    E = 1.3 * 10**10  # N/m^2
-    I = (w*t**3)/12
-    f = -d*w*t*g
+    w = 0.3           # bredde (m)
+    d = 0.03          # tykkelse (m)
+    g = 9.81          # gravitasjonskonstant (m/s^2)
+    density = 480     # massetetthet (kg/m^3)
+    L = 2             # Lengde (m)
+    E = 1.3 * 10**10  # Materialkonstant (N/m^2)
+    I = (w*d**3)/12   # Tverrsnitt (m^2)
+    f = -density*w*d*g
     h = L/n
     f_x = [(h ** 4 / (E * I)) * f] * n
     A = lagA(n)
     y = spsolve(A, f_x)
     return y
+
+print(calc_y_c(10))
